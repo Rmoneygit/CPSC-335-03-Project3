@@ -1,4 +1,4 @@
-Project 2: Sorting Race
+Project 3: Self Organizing Map
 ------------------------------------------------------------
 
 Team: Albert Paez, Ryan Patrick, Ryan Carney
