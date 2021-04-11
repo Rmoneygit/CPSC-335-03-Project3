@@ -12,3 +12,9 @@ function setup() // P5 Setup Fcn
     createCanvas( width, height );  // Make a P5 canvas.
     background(100, 100, 100);
 }
+
+function main() {
+    let som = new SOM();
+    console.log(som.toString());
+}
+main();
