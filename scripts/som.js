@@ -42,14 +42,18 @@ class SOM {
     }
 
     train(vector, classification) {     
+        let changes = [];
+        
         let winner = this.find_winner(vector);
         winner.adjust_weight(vector);
         winner.classification = classification;
+        changes.push(winner);
 
         let neighbors = this.find_neighbors(winner);
         neighbors.forEach(function(node) {
             node.adjust_weight(winner.weight);
             node.classification = classification;
+            changes.push(node);
         });
 
         neighbors.forEach(function(node) { 
@@ -58,9 +62,12 @@ class SOM {
             for(var i = 0; i < steppies.length; i++) {
                 if(!neighbors.includes(steppies[i])) {
                     steppies[i].adjust_weight(node.weight);
+                    steppies.classification = classification;
+                    changes.push(steppies[i]);
                 }
             }
         }, this);
+        return changes;
     }
 
     find_neighbors(node) {
