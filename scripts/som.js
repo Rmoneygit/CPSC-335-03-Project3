@@ -4,7 +4,7 @@ class SOM {
         for(var i = 0; i < 21; i++) {
             let row = []
             for(var j = 0; j < 21; j++) {
-                row.push(new NeuralNode());
+                row.push(new NeuralNode(i, j));
             }
             this.grid.push(row);
         }
@@ -23,4 +23,60 @@ class SOM {
         }
         return str;
     }
+
+    find_winner(vector) {
+        let minX = 0;
+        let minY = 0;
+        let min = Number.MAX_VALUE;
+        for(var i = 0; i < 21; i++) {
+            for(var j = 0; j < 21; j++) {
+                let dist = this.grid[i][j].compute_distance(vector);
+                if(dist < min) {
+                    minX = i;
+                    minY = j;
+                    min = dist;
+                }
+            }
+        }
+        return this.grid[minX][minY];
+    }
+
+    train(vector, classification) {     
+        let winner = this.find_winner(vector);
+        winner.adjust_weight(vector);
+        winner.classification = classification;
+
+        let neighbors = this.find_neighbors(winner);
+        neighbors.forEach(function(node) {
+            node.adjust_weight(winner.weight);
+            node.classification = classification;
+        });
+
+        neighbors.forEach(function(node) { 
+            let steppies = this.find_neighbors(node);
+
+            for(var i = 0; i < steppies.length; i++) {
+                if(!neighbors.includes(steppies[i])) {
+                    steppies[i].adjust_weight(node.weight);
+                }
+            }
+        }, this);
+    }
+
+    find_neighbors(node) {
+        let neighbors = [];
+        if(node.x > 0) {
+            neighbors.push(this.grid[node.x - 1][node.y]);
+        }
+        if(node.x < 20) {
+            neighbors.push(this.grid[node.x + 1][node.y]);
+        }     
+        if(node.y > 0) {
+            neighbors.push(this.grid[node.x][node.y - 1]);
+        }
+        if(node.y < 20) {
+            neighbors.push(this.grid[node.x][node.y + 1]);
+        }
+        return neighbors;
+      }
 }
