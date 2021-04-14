@@ -2,10 +2,13 @@
 // Description:
 
 // Make global g_canvas JS 'object': a key-value 'dictionary'.
-var g_canvas = { cell_size:10, wid:60, hgt:40 }; // JS Global var, w canvas size info.
+var g_canvas = { cell_size:30, wid:21, hgt:21 }; // JS Global var, w canvas size info.
 var training_data = [[[5, 5, -53.5], 1], [[5, 4, -18.8], 2]]; 
 var changeColors = false;
 var changes = [];
+var som = new SOM();
+var i = 0;
+var last_update_time = 0;
 // Array in position 0 is the training vector, number is position 1 is class
 
 function setup() // P5 Setup Fcn
@@ -17,20 +20,17 @@ function setup() // P5 Setup Fcn
     background(100, 100, 100);
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
- }
-
-function main() {
-    let som = new SOM();
-    for(var i = 0; i < training_data.length; i++) {
+function draw() {
+    let current_time = new Date().getTime();
+    if(i < training_data.length && current_time - last_update_time > 500) {
+        last_update_time = current_time;
         row = training_data[i];
         changes = som.train(row[0], row[1]);
+        adjust_colors();
+        i++;
     }
 }
-main();
 
-// Not called yet, needs to be implemented
 function adjust_colors() {
     console.log('ajdust colors was called');
     let sz = g_canvas.cell_size;
