@@ -32,7 +32,7 @@ class NeuralNode {
 
     adjust_weight(target) {
         for(var i = 0; i < 3; i++) {
-            this.weight[i] = (target[i] - this.weight[i])*this.weight[i]*0.2;
+            this.weight[i] += (target[i] - this.weight[i])*0.2;
         }
     }
 }

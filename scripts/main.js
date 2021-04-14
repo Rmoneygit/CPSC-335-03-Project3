@@ -52,13 +52,20 @@ function setup() // P5 Setup Fcn
 
 function draw() {
     let current_time = new Date().getTime();
-    if(i < training_data.length && current_time - last_update_time >= 200) {
+    if(i < training_data.length && current_time - last_update_time >= 10 && epoch <= 30) {
+        document.getElementById('vector-id').innerHTML = `Training Vector # ${i + 1}`;
         last_update_time = current_time;
         row = training_data[i];
         changes = som.train(row[0], row[1]);
         adjust_colors();
         i++;
-        document.getElementById('vector-id').innerHTML = `Training Vector # ${i}`;
+        if(i === training_data.length) {
+            epoch++;
+            if(epoch != 31) {
+                document.getElementById('epoch').innerHTML = `Epoch # ${epoch}`;
+            }
+            i = 0;
+        }
     }
 }
 
