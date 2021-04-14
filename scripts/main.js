@@ -1,5 +1,3 @@
-// Authors: Ryan Patrick
-// Description:
 
 // Make global g_canvas JS 'object': a key-value 'dictionary'.
 var g_canvas = { cell_size:30, wid:21, hgt:21 }; // JS Global var, w canvas size info.
@@ -38,6 +36,7 @@ var training_data=[
 var changeColors = false;
 var changes = [];
 var som = new SOM();
+var epoch = 1;
 var i = 0;
 var last_update_time = 0;
 // Array in position 0 is the training vector, number is position 1 is class
@@ -59,11 +58,11 @@ function draw() {
         changes = som.train(row[0], row[1]);
         adjust_colors();
         i++;
+        document.getElementById('vector-id').innerHTML = `Training Vector # ${i}`;
     }
 }
 
 function adjust_colors() {
-    console.log('ajdust colors was called');
     let sz = g_canvas.cell_size;
     let sz2 = sz / 2;
     let big = sz -2;
