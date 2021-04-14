@@ -39,6 +39,11 @@ var som = new SOM();
 var epoch = 1;
 var i = 0;
 var last_update_time = 0;
+var max_epochs = 5;
+let sz = g_canvas.cell_size;
+let sz2 = sz / 2;
+let big = sz -2;
+let K = 0.1;
 // Array in position 0 is the training vector, number is position 1 is class
 
 function setup() // P5 Setup Fcn
@@ -46,13 +51,14 @@ function setup() // P5 Setup Fcn
     let sz = g_canvas.cell_size;
     let width = sz * g_canvas.wid;  // Our 'canvas' uses cells of given size, not 1x1 pixels.
     let height = sz * g_canvas.hgt;
-    createCanvas( width, height );  // Make a P5 canvas.
+    var canvas = createCanvas( width, height );  // Make a P5 canvas.
+    canvas.parent('canvas-holder');
     background(100, 100, 100);
 }
 
 function draw() {
     let current_time = new Date().getTime();
-    if(i < training_data.length && current_time - last_update_time >= 10 && epoch <= 30) {
+    if(i < training_data.length && current_time - last_update_time >= 10 && epoch <= max_epochs) {
         document.getElementById('vector-id').innerHTML = `Training Vector # ${i + 1}`;
         last_update_time = current_time;
         row = training_data[i];
@@ -61,8 +67,11 @@ function draw() {
         i++;
         if(i === training_data.length) {
             epoch++;
-            if(epoch != 31) {
-                document.getElementById('epoch').innerHTML = `Epoch # ${epoch}`;
+            document.getElementById('epoch').innerHTML = `Epoch # ${epoch}`;
+            if(epoch > max_epochs) {
+                document.getElementById('input-stuff').classList.remove('invisible');
+                document.getElementById('epoch').innerHTML = 'Epoch # -';
+                document.getElementById('vector-id').innerHTML = 'Training Vector # -';
             }
             i = 0;
         }
@@ -70,10 +79,6 @@ function draw() {
 }
 
 function adjust_colors() {
-    let sz = g_canvas.cell_size;
-    let sz2 = sz / 2;
-    let big = sz -2;
-    let K = 0.1;
     changes.forEach(function(node) {
         let x = node.x*sz;
         let y = node.y*sz;
@@ -91,4 +96,14 @@ function adjust_colors() {
         stroke(100, 100, 100);
         rect( x, y, big, big );
     });
+}
+
+function classify() {
+    let v1 = document.getElementById('val-1').value;
+    let v2 = document.getElementById('val-2').value;
+    let v3 = document.getElementById('val-3').value;
+    let classification = document.getElementById('classification').value;
+    let vector = [v1, v2, v3];
+    changes = som.train(vector, classification);
+    adjust_colors();
 }

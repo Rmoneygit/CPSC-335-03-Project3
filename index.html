@@ -14,6 +14,19 @@
     <h1>Self-Organizing Map</h1>
     <div id="epoch">Epoch # 1</div>
     <div id="vector-id">Training Vector # 1</div>
+    <div id='canvas-holder'></div>
+    <div id="input-stuff" class="invisible">
+        <div id="vector-input" name="vector-input">
+            <label for="val-1" id="input-label">Input Vector:</label>
+            <input type="text" id="val-1" name="vector-input-1">
+            <input type="text" id="val-2" name="vector-input-2">
+            <input type="text" id="val-3" name="vector-input-3">
+            <label for="class-input" id="class-input-label">Input Class:</label>
+            <input type="text" id="classification" name="class-input">
+        </div>
+        <br>
+        <button type="button" onClick="classify()">Enter</button>
+    </div>
 </body>
 <script src="scripts/main.js"></script>
 </html>

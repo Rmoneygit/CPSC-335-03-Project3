@@ -5,3 +5,7 @@ body {
 canvas {
   background-color: black;
 }
+
+.invisible {
+  visibility: hidden;
+}

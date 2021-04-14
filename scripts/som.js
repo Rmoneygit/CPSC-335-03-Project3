@@ -1,6 +1,8 @@
 class SOM {
     constructor() {
         this.grid = [];
+        this.winnerx = 0;
+        this.winnery = 0;
         for(var i = 0; i < 21; i++) {
             let row = []
             for(var j = 0; j < 21; j++) {
@@ -48,6 +50,8 @@ class SOM {
         winner.adjust_weight(vector);
         winner.classification = classification;
         changes.push(winner);
+        this.winnerx = winner.x;
+        this.winnery = winner.y;
 
         let neighbors = this.find_neighbors(winner);
         neighbors.forEach(function(node) {
