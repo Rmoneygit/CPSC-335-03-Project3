@@ -7,11 +7,12 @@ var som = new SOM();
 var epoch = 1;
 var i = 0;
 var last_update_time = 0;
-var max_epochs = 30;
+var max_epochs = 5;
 let sz = g_canvas.cell_size;
 let sz2 = sz / 2;
 let big = sz -2;
 let K = 0.1;
+let prev_hi = [0, 0];
 // Array in position 0 is the training vector, number is position 1 is class
 
 function setup() // P5 Setup Fcn
@@ -66,6 +67,22 @@ function adjust_colors() {
     });
 }
 
+function highlight(node) {
+    
+    let prev_x = prev_hi[0]*sz;
+    let prev_y = prev_hi[1]*sz;
+    stroke(100, 100, 100);
+    rect( prev_x, prev_y, big, big );
+    
+    
+    let x = node.x*sz;
+    let y = node.y*sz;
+    stroke(255, 255, 0);
+    rect( x, y, big, big );
+    prev_hi[0] = node.x;
+    prev_hi[1] = node.y;
+}
+
 function classify() {
     let v1 = document.getElementById('val-1').value;
     let v2 = document.getElementById('val-2').value;
@@ -73,6 +90,7 @@ function classify() {
     let vector = [v1, v2, v3];
     let winner = som.classify(vector);
     document.getElementById('wilder-class').innerHTML = `Wilder class: ${winner.classification}`;
+    highlight(winner);
 }
 
 function test() {
