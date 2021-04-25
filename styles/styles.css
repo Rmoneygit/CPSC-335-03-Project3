@@ -9,3 +9,15 @@ canvas {
 .invisible {
   visibility: hidden;
 }
+
+.stats {
+  position: relative;
+  left: 550px;
+  bottom: 500px;
+}
+
+.enter-button {
+  position: relative;
+  left: 340px;
+  bottom: 22px;
+}

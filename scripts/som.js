@@ -90,4 +90,8 @@ class SOM {
         }
         return neighbors;
       }
+
+      classify(vector) {
+        return this.find_winner(vector);
+      }
 }
