@@ -7,7 +7,7 @@ var som = new SOM();
 var epoch = 1;
 var i = 0;
 var last_update_time = 0;
-var max_epochs = 5;
+var max_epochs = 40;
 let sz = g_canvas.cell_size;
 let sz2 = sz / 2;
 let big = sz -2;
@@ -71,12 +71,16 @@ function highlight(node) {
     
     let prev_x = prev_hi[0]*sz;
     let prev_y = prev_hi[1]*sz;
+    let acolors = get( prev_x + sz2, prev_y + sz2 ); // Get cell interior pixel color [RGBA] array.
+    fill(acolors)
     stroke(100, 100, 100);
     rect( prev_x, prev_y, big, big );
     
     
     let x = node.x*sz;
     let y = node.y*sz;
+    acolors = get( x + sz2, y + sz2 ); // Get cell interior pixel color [RGBA] array.
+    fill(acolors)
     stroke(255, 255, 0);
     rect( x, y, big, big );
     prev_hi[0] = node.x;
